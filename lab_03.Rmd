@@ -34,7 +34,8 @@ md_contribs <- read_rds("data/lab_03.rds")
 You'll need to fix one issue with the column names using janitor. Write a code block to do that, making sure that you save the results to the same dataframe.
 
 ```{r}
-clean_names(md_contribs)
+cleaned_md_contribs <- md_contribs |>
+  clean_names()
 
 ```
 
@@ -49,7 +50,14 @@ A1:
 The seven cities with the largest number of contributions
 ```{r}
 md_contribs |>
-  glimpse(contributor_city)
+  group_by(contributor_city) |>
+  summarise(contributions = n()) |>
+  mutate(contributor_city = case_when(
+    contributor_city == "BALRIMORE" | contributor_city == "BLATIMORE" ~ "BALTIMORE", 
+    contributor_city =="COLOMBIA" ~ "COLUMBIA", 
+    TRUE ~ contributor_city
+  ))
+
 ```
 
 Q2: Find the 5-digit ZIP code in Maryland that had the highest total amount of contributions (by dollar value). You will need to use mutate to ensure that you have a zip code column with the first five characters from the existing zip code column.
@@ -59,6 +67,15 @@ Where is that zip code and what kind of area is it, demographically? Which commi
 A2:
 
 ```{r}
+glimpse(md_contribs)
+
+md_contribs |>
+  mutate(contributor_zip = as.character(contributor_zip)) |>
+  mutate(contributor_zip = str_sub(contributor_zip, start=1L, end=5L)) |>
+  group_by(contributor_zip) |>
+  summarise(contribs =n()) |>
+  arrange(desc(contribs))
+  
 
 ```
 
