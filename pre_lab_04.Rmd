@@ -102,7 +102,7 @@ cleaned_dc_food |>
 
 ### Task 7: Use a different refinr method to clean the city_clean field.
 
-**Task** Run the following code to use the n_gram_merge() function to clean the data, then group by city_clean and city to examine cities that start with A. Look at the differences. Does the changes it made vary substantially from the previous use of key_collision_merge? ****
+**Task** Run the following code to use the n_gram_merge() function to clean the data, then group by city_clean and city to examine cities that start with A. Look at the differences. Does the changes it made vary substantially from the previous use of key_collision_merge? **No**
 
 ```{r}
 cleaned_dc_food <- dc_food |>
