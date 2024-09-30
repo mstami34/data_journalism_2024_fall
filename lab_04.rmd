@@ -76,6 +76,15 @@ md_new_senate_expenses|>
 
 **A2.**
 
+```{r}
+md_new_senate_expenses |>
+  filter(candidate == "Hogan") |>
+  group_by(purpose) |>
+  summarise(contributions = n(), 
+            amount = sum(amount)) |>
+  arrange(desc(amount))
+
+```
 **Q3.** Pick one of the top categories for each campaign and write code that shows how that spending has changed over time, if at all. You'll need to use lubridate for this. Write a couple of sentences describing that pattern.
 
 **A3.**
