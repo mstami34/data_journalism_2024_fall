@@ -45,7 +45,7 @@ You'll need to load one data set, a CSV file of campaign expenditures located in
 
 ```{r}
 # Load the Maryland expenditures data table
-md_senate_expenses <- read_csv("data/md_senate_expenses.csv")
+
 ```
 
 ## Answer questions
@@ -59,59 +59,22 @@ Then, when you are done standardizing `purpose_clean`, export it as a new CSV fi
 Then, using that `purpose_clean` column, write code to find the largest amounts of spending on categories by both campaigns.
 
 **A1.**
-Both campaigns are spending a ton of money on advertising, salary, and fundraising consulting. 
+
 ```{r}
-
-
-md_new_senate_expenses|>
-  rename(purpose_original = purpose) |>
-  rename(purpose = purpose_clean) |>
-  mutate(purpose = case_when(
-    purpose == "AD BUY" ~ "Advertising",
-    purpose == "Media Advertising" ~ "Advertising", 
-    purpose == "Online Advertising" ~ "Advertising", 
-    purpose == "PRINT ADS" ~ "Advertising", 
-    purpose == "ADS" ~ "Advertising", 
-    TRUE ~ purpose
-  )) |>
-  mutate(purpose =str_to_upper(purpose)) |>
-  mutate(purpose = str_remove(purpose, "EXPENSE")) |>
-  group_by(purpose) |>
-  summarise(amount = sum(amount)) |>
-  arrange(desc(amount))
-  
-
 
 ```
 
 **Q2.** Let's do some research on the top purposes from A1. Feel free to search the Web to understand those terms better if need be, and then write a description comparing and contrasting the two campaigns' largest categories of spending.
 
 **A2.**
-Alsobrooks spent a significant amount more than Hogan. 
 
-```{r}
-md_new_senate_expenses |>
-  filter(candidate == "Hogan") |>
-  group_by(candidate, purpose) |>
-  summarise(contributions = n(), 
-            amount = sum(amount)) |>
-  arrange(desc(amount))
-
-```
 **Q3.** Pick one of the top categories for each campaign and write code that shows how that spending has changed over time, if at all. You'll need to use lubridate for this. Write a couple of sentences describing that pattern.
 
 **A3.**
 
 ```{r}
-md_new_senate_expenses |>
-  filter(candidate == "Alsobrooks", 
-         purpose == "ADVERTISING"
-         ) |>
-  mutate(month = floor_date(date, "month")) |>
-  group_by(month, candidate)|>
-  summarise(purpose) |>
-  arrange(desc(month))
-  
+
+
 ```
 
 **Q4.** Which committee has the larger payroll or salary spending so far? How many unique recipients of payroll/staff spending are there for each candidate?
