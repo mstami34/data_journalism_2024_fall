@@ -117,12 +117,19 @@ md_new_senate_expenses |>
 
 **Q4.** Which committee has the larger payroll or salary spending so far? How many unique recipients of payroll/staff spending are there for each candidate?
 
-**A4.**
+**A4.** Alsobrooks' salary spending is 822,015, while Hogan's staff spending is 285,672.8. Both parties have a singular name for spending, although Hogan's is under "staffing - see memo" and Alsobrooks' is under "salary". 
 
 ```{r}
+md_new_senate_expenses |>
+  filter(purpose_clean == "STAFFING - SEE MEMO", candidate == "Hogan") |>
+  group_by(candidate, purpose) |>
+  summarise(contributions = n(), 
+            amount = sum(amount)) |>
+  arrange(desc(amount))
 
 ```
 
 **Q5** What's the most interesting story idea you've found in this data?
 
 **A5**
+Probably Alsobrooks' sudden jump in funds in April. Look around that time for events and circumstances that coincided with it. 
