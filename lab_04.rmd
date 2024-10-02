@@ -87,11 +87,11 @@ md_new_senate_expenses|>
 **Q2.** Let's do some research on the top purposes from A1. Feel free to search the Web to understand those terms better if need be, and then write a description comparing and contrasting the two campaigns' largest categories of spending.
 
 **A2.**
-Alsobrooks spent a significant amount more than Hogan. 
+Alsobrooks spent a significant amount more than Hogan. Both of their largest categories were Ads and staffing, but her numbers dwarfed his. 
 
 ```{r}
 md_new_senate_expenses |>
-  filter(candidate == "Hogan") |>
+  filter(candidate == "Alsobrooks") |>
   group_by(candidate, purpose) |>
   summarise(contributions = n(), 
             amount = sum(amount)) |>
@@ -101,15 +101,16 @@ md_new_senate_expenses |>
 **Q3.** Pick one of the top categories for each campaign and write code that shows how that spending has changed over time, if at all. You'll need to use lubridate for this. Write a couple of sentences describing that pattern.
 
 **A3.**
-
+Alsobrooks' spending involving media advertising has grown significantly over time. The amount grew pretty signficantly from december to march, then massively spiked in april, eventually coming back down to numbers similar to March in May. 
 ```{r}
 md_new_senate_expenses |>
   filter(candidate == "Alsobrooks", 
-         purpose == "ADVERTISING"
+         purpose == "Media Advertising"
          ) |>
   mutate(month = floor_date(date, "month")) |>
   group_by(month, candidate)|>
-  summarise(purpose) |>
+  summarise(contributions = n(), 
+            amount = sum(amount)) |>
   arrange(desc(month))
   
 ```
