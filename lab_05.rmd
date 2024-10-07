@@ -27,7 +27,9 @@ First, load two CSV contribution files in the `data` folder, one each for donati
 harris_campaign <- read_csv("data/august_harris.csv")
 harris_campaign_p2 <- read_csv("data/july_harris.csv")
 
-harris_campaign_combined <- bind_rows(list(harris_campaign, harris_campaign_p2))
+harris_campaign_combined <- bind_rows(harris_campaign, harris_campaign_p2)
+
+glimpse(harris_campaign_combined)
 
 ```
 
@@ -40,8 +42,14 @@ new_voters <- read.csv("data/new_voters.csv")
 Next join the Harris donations to the voter data. Remember, people's names are common, __so you'll want to use name columns and address information__. You'll need to figure out which columns to use from both dataframes. The new_voters data has both a single Address column and various parts of the address, such as HouseNumber. Make a plan for picking your join columns - try out some combinations - and save the results to a new dataframe.
 
 ```{r}
-# join the combined Harris file to the new voters
-# you will need to determine what columns to use
+harris_campaign_combined |>
+  inner_join(new_voters,
+            join_by(
+            last_name == LastName, 
+            first_name == FirstName, 
+            middle_name == MiddleName,
+            address_one == Address, 
+            city == ResidentialCity))
 ```
 
 ## Answer questions
@@ -55,6 +63,12 @@ Q2. Based on your join, how many donations to Harris have come from people who r
 A2. 
 
 ```{r}
+new_voters_after_july_20 <- new_voters |>
+  filter(date > mdy("07-20-2024"))
+new_voters_after_july_20 |>
+  group_by(last_name, first_name, address_one, city)
+
+
 ```
 
 Q3. What are the party and gender breakdowns of those donors? How many donations has Harris gotten from non-Democrats?
@@ -62,6 +76,9 @@ Q3. What are the party and gender breakdowns of those donors? How many donations
 A3. 
 
 ```{r}
+new_voters |>
+  group_by(Gender)|>
+  summarise(contributors = n())
 
 ```
 
