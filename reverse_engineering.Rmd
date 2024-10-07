@@ -1,0 +1,113 @@
+---
+title: "Reverse Engineering Project"
+author: "Michael, Dylan, Oliver"
+date: "Oct. 5"
+output:
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction 
+
+In this notebook, we are reverse engineering the story, "Why Many Americans don’t Vote"(https://projects.fivethirtyeight.com/non-voters-poll-2020-election/)
+
+## Load libraries
+
+Loading required libraries for this analysis.
+
+```{r echo=FALSE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(janitor) 
+```
+
+## Load and Cleaning Data
+
+In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
+
+The source of the data was 538.com, which used a voter file combined with survey responses to classify voters and their answers to questions. Didn't really come across many issues, but all of the data is numeric values. 
+
+```{r}
+Story_data <- read_csv("~/Downloads/nonvoters_data.csv")
+
+```
+
+## Sentences to Engineer
+In this notebook, we are reverse engineering five sentences from the story.
+
+### Sentence 1
+
+* **Sentence text**: .“Every election, millions of Americans go through a similar thought process and, it turns out, lots of people feel like Brown: They think voting doesn’t matter or isn’t worth their time.”
+* **Analysis summary**:  611 people fit that category out of an original dataset of 5,836 - roughly 10 percent, which would equate to millions of people with the correlation to the US voting population. This demonstrates that if the dataset represents all americans, millions think that voting doesn't matter or isn't worth their time. 
+
+```{r}
+filtered_data <- Story_data[Story_data$Q26 %in% c(2, 3, 4), ]
+view(filtered_data)
+
+filtered_data <- filtered_data[
+  filtered_data$Q29_2 == 1 | 
+    filtered_data$Q29_3 == 1 | 
+    filtered_data$Q29_4 == 1, 
+]
+print(filtered_data)
+
+```
+
+### Sentence 2
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 3
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 4
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 5
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+-30-
