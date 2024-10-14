@@ -64,13 +64,20 @@ print(filtered_data)
 
 ### Sentence 2
 
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Sentence text**: “In the survey, we asked voters who have missed at least one national election — which included some people who almost always vote — why they didn’t cast a ballot. Nearly a quarter cited some of the structural barriers we mentioned above. But another 31 percent said that they decided not to vote because they disliked the candidates or they thought nothing would change as a result of the election (26 percent).”
+
+
+* **Analysis summary**: Out of 1,342 people who say they sometimes, rarely, or don't vote in national elections, 765 say that they either dislike the candidates or that nothing will change for them. 403 say they dislike the candidates, while 362 say nothing will change as a result. This is sinilar to the original numbers presented in the text, as 403 is 30% of 1342 and 362 is 27%.
 
 ```{r}
-# Put code to reverse engineer sentence here
+filtered_data <- Story_data[Story_data$Q26 %in% c(2, 3, 4), ]
+view(filtered_data)
 
-# Display results of code below this codeblock
+filtered_data <- filtered_data[
+  filtered_data$Q29_1 == 1 |
+    filtered_data$Q29_3 == 1,
+]
+print(filtered_data)
 
 ```
 
@@ -80,9 +87,14 @@ print(filtered_data)
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
-# Put code to reverse engineer sentence here
+filtered_data <- Story_data[Story_data$Q14 %in% c(4,5), ]
+view(filtered_data)
 
-# Display results of code below this codeblock
+filtered_data <- filtered_data[
+  filtered_data$Q29_1 == 1 |
+    filtered_data$Q29_3 == 1,
+]
+print(filtered_data)
 
 ```
 
