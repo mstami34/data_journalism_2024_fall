@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(lubridate)
 ```
 
 ## Getting Started
@@ -56,7 +57,7 @@ harris_campaign_combined |>
 
 Q1. Explain why you used the columns you did to make the join, and why that result is better than other ways you tried. Are there any problems with the join you made, such as the possibility of false positives?
 
-A1. 
+A1. I used these columns because they're shared on both sides, so it works well. I don't see any problems with this join. 
 
 Q2. Based on your join, how many donations to Harris have come from people who registered this year? How many unique people does that represent, and which donors have given the largest _number_ of donations since July 20? 
 
@@ -64,7 +65,7 @@ A2.
 
 ```{r}
 new_voters_after_july_20 <- new_voters |>
-  filter(date > mdy("07-20-2024"))
+  setorder(date > mdy("07-20-2024"))
 new_voters_after_july_20 |>
   group_by(last_name, first_name, address_one, city)
 
@@ -73,11 +74,11 @@ new_voters_after_july_20 |>
 
 Q3. What are the party and gender breakdowns of those donors? How many donations has Harris gotten from non-Democrats?
 
-A3. 
+A3. Slightly more females than males. 
 
 ```{r}
 new_voters |>
-  group_by(Gender)|>
+  group_by(Party)|>
   summarise(contributors = n())
 
 ```
@@ -85,3 +86,4 @@ new_voters |>
 Q4. Choose your own adventure: I want you to come up with a question you could ask of one of the dataframes we've created for this lab. It could involve just the new voters, or the donors or the joined dataframe, but it cannot be a variation of a previous question (so, for example, you can't ask, "How many Republicans have given to Harris"). First write the question and then try to answer it by writing code. If you're not sure of the exact code, try googling (or ask me for advice) but, at a minimum, describe what you think you'd have to do to answer it and what the results would look like. That can help.
 
 A4:
+How many donations has harris gotten from non-democrat males? To answer this, I would have to create a new group of harris's donations that exclude democrats, and then sort by gender. 
