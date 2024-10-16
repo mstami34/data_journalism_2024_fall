@@ -50,28 +50,22 @@ From there, you will need to read in and clean up the data, and in particular th
 You will need to read in and clean up the data so that it can be used for analysis. By "clean" I mean the column headers must not contain spaces and they should have meaningful names, not "x1" or something similar. The current registrations dataframe *MUST* include the county name, but should not include the columns under `Changes` and `Party Affiliation From`. How you do that is up to you (and could involve something outside R), but you can use `select()` with or without the minus sign to include or exclude certain columns. You also can use the `rename` function to, well, rename columns.
 
 ```{r}
-Party_registration <- read_csv("by-county.csv")
-Party_registration
-Party_reg <- Party_registration |>
-  select(ADDRESS, NAME, DEM_FROM, REP_FROM, NLM_FROM, GRN_FROM, UNAF_FROM, OTH_FROM, TOTAL_FROM)
+# Party registrations
 
 ```
 
 ```{r}
-Removals <- read_csv("fixed-actual-removals.csv")
-
-
+# Removals
 
 ```
 
 ```{r}
-Changes <- read_csv("removals.csv")
+# Changes
 
 ```
 
 ```{r}
-Current_reg <- Party_registration |>
-  select(-ADDRESS, -NAME, -DEM_FROM, -REP_FROM, -NLM_FROM, -GRN_FROM, -UNAF_FROM, -OTH_FROM, -TOTAL_FROM)
+# Current registrations
 
 ```
 
@@ -82,24 +76,22 @@ Do all of that again, for the [September 2022 voter registration update](https:/
 To answer the following questions, you'll need to calculate percentages and do other calculations. Whether you do that by combining or joining dataframes or you write code to run separately on both is up to you.
 
 ```{r}
-New_Party_registrations <- read_csv("2022-by-county.csv")
-view(New_Party_registrations)
-new_party_reg <- New_Party_registrations |>
-  select(ADDRESS, NAME, DEM_frm, REP_frm, GRN_frm, UNAF_frm, OTH_frm, TOTAL_frm)
-```
-
-```{r}
-Removals <- read_csv("removals-2.csv")
+Party_registrations <- read.csv()
 
 ```
 
 ```{r}
-Changes <- read_csv("changes.csv")
+# Removals
+
 ```
 
 ```{r}
-new_current_reg <- New_Party_registrations |>
-  select(-ADDRESS, -NAME, -DEM_frm, -REP_frm, -GRN_frm, -UNAF_frm, -OTH_frm, -TOTAL_frm)
+# Changes
+
+```
+
+```{r}
+# Current registrations
 
 ```
 
