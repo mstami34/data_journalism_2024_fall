@@ -107,17 +107,45 @@ new_current_reg <- New_Party_registrations |>
 
 Q1. Calculate the percentage of registered Democrats, Republicans and unaffiliated voters for the entire state in September 2024 and September 2022, and then calculate the percentage change for those three party categories (the formula for percentage change is easy to remember: (New-Old)/Old). How would you describe the changes in these partisan categories in a story? What's the most interesting thing about these changes that would be the lede of that story?
 
-A1.
+A1. The changes in these party categories is negative for democrats and republicans, but positive for people who register as unaffiliated. That would be the lede of the story, that the trends indicate that more people are switching to unaffiliated. 
 
 ```{r}
+percent_2024 <- Current_reg |>
+  mutate(perc_dem_2024 = DEM/TOTAL*100,
+         perc_rep_2024 = REP/TOTAL*100,
+         perc_unaf_2024 = UNAF/TOTAL*100
+         ) |>
+  select(COUNTY, perc_dem_2024, perc_rep_2024, perc_unaf_2024)
+percent_2024
 
 ```
 
+```{r}
+percent_2022 <- new_current_reg |>
+  mutate(perc_dem_2022 = DEM/TOTAL*100,
+         perc_rep_2022 = REP/TOTAL*100,
+         perc_unaf_2022 = UNAF/TOTAL*100
+         ) |>
+  select(COUNTY, perc_dem_2022, perc_rep_2022, perc_unaf_2022)
+percent_2024
+```
+```{r}
+percent_change_by_party <- percent_2022 |>
+  inner_join(percent_2024) |>
+  mutate(perc_change_dem = (perc_dem_2024-perc_dem_2022)/perc_dem_2022 * 100,
+         perc_change_rep = (perc_rep_2024-perc_rep_2022)/perc_rep_2022 * 100,
+         perc_change_unaf = (perc_unaf_2024-perc_unaf_2022)/perc_unaf_2022 * 100,
+  ) |>
+  select(COUNTY, perc_change_dem, perc_change_rep, perc_change_unaf)
+percent_change_by_party
+```
 Q2. Among the Maryland jurisdictions with the most registered voters, which one had the biggest percentage increase in unaffiliated voters between 2022 and 2024? How did that county vote for governor in 2022 and for president in 2020? Contrast the partisan percentages of that county with the county that had the eighth-largest percentage increase in unaffiliated voters. You should display information from the data that shows the counties with the largest percentage increase first.
 
 A2.
-
+Prince George's county had the biggest percentage increase in unaffiliated voters between 2022 and 2024. Almost 90 percent of the vote in PG county went for Biden in 2020, and +81 to Wes Moore in 2022. Howard County was +43 for Wes Moore, and over 60 percent of the vote there went to Biden. 
 ```{r}
+percent_change_by_party |>
+  arrange(desc(perc_change_unaf))
 
 ```
 
