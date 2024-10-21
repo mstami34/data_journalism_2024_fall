@@ -153,7 +153,7 @@ Q3. Do the party percentages of new registrants (% Dem, % Rep, % Unaffiliated) f
 
 In other words, did new registrants mirror the overall partisan composition of the electorate, or were they different? Do any of the methods of registration vary significantly from the overall partisan pattern? Which method is worthy of further exploration?
 
-A3.
+A3. Yes, the trends match the overall percentage of partisan registration. It appears that unaffiliated registration is growing according to data logs online, while the other parties aren't really gaining much momentum. 
 
 ```{r}
 
@@ -162,12 +162,21 @@ A3.
 
 Q4. Choose your own adventure! Using both the 2024 and 2022 data for one of the dataframes (changes, removals or new registrations), ask and answer a question that makes at least one comparison and requires code to answer. That could involve calculating a percentage, percentage change or the raw difference between two columns.
 
-A4.
+A4. Is green party registration growing from 2022 to 2024?
 
-```{r}
+```{r} 
+percent_2022 <- new_current_reg |>
+  mutate(perc_green_2022 = GRN/TOTAL*100)
 
 ```
 
+``` {r}
+percent_2024 <- Current_reg |>
+  mutate(perc_green_2024 = GRN/TOTAL*100)|>
+
+sum((perc_green_2024-perc_green_2022)/perc_green_2022 *100)
+
+```
 Q5. What's the best story idea or question you've seen as a result of the work you've done in this lab?
 
-A5.
+A5. How does the party distribution affect where people submit ballots? 
