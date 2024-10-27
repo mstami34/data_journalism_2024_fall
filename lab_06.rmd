@@ -172,7 +172,7 @@ percent_2022 <- new_current_reg |>
 
 ``` {r}
 percent_2024 <- Current_reg |>
-  mutate(perc_green_2024 = GRN/TOTAL*100)|>
+  mutate(perc_green_2024 = GRN/TOTAL*100)
 
 sum((perc_green_2024-perc_green_2022)/perc_green_2022 *100)
 
