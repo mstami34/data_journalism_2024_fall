@@ -95,11 +95,11 @@ frederick_joined <- frederick_cvr |>
 **Q3** Let's answer some basic questions about ticket-splitting: how many voters voted for different parties in the governor and comptroller's race? How many voted for the same party in both races? What percentage of all voters split their tickets in those races? In how many cases did voters choose the same party in all five contests? What percentage of all voters does that represent?
 
 **A3**
-
+11,871 voted for different parties in the governor and comptroller's race. 95,221 voted rot the same party in both races. 16.2 percent of all voters split their tickets. 89916 voters chose the same party in all five contests - good for 83.8 percent. 
 ```{r}
 frederick_joined |>
-  filter(governor_lt_governor |= comptroller) |>
-  summarise(count_split = n())
+  filter(governor_lt_governor != comptroller) |>
+  nrow()
 
 ```
 
@@ -108,19 +108,32 @@ frederick_joined |>
   filter(governor_lt_governor == comptroller) |>
   summarise(count_split = n())
 ```
+```{r}
+frederick_joined |>
+  mutate(split_vote = case_when(
+    governor_lt_governor == comptroller & comptroller == attorney_general &
+    attorney_general == u_s_senator & u_s_senator == representative_in_congress_6 ~ "voted the same in all five", 
+    TRUE ~ "split vote"
+  )) |>
+  group_by(split_vote) |>
+  summarise(votes = n()) |>
+  mutate(percent = votes/sum(votes)*100,
+         percent = round(percent, 1))
+```
+
 **Q4** Now let's look for the zip codes where voters preferred Republicans in every race *except* the governor's race, where Dan Cox lost to Wes Moore by a wide margin. Write code to generate a dataframe of zip codes with the number of those voters for each of those zip codes, ordering the dataframe so that the zip code with the most ticket-splitters appears first.
 
 **A4**
-
+21702 has the most voters who preferred rep in every race except the governor's. 
 ```{r} 
 frederick_joined |>
   mutate(split_vote = case_when(
-    #governor_lt_governor == comptroller & comptroller == attorney_general & attorney_general == u_s_senator & u_s_senator == representative_in_congress_6 ~ "voted the same in all 5", 
-    u_s_senator = "REP" & representative_in_congress_6 = "REP" & comptroller = "COMP" & attorney_general == "REP" & governor_lt_governor = "DEM" ~ "split republican"
-    TRUE ~ "split vote"
+    u_s_senator == "REP" & representative_in_congress_6 == "REP" & comptroller == "REP" & attorney_general == "REP" & governor_lt_governor == "DEM" ~ "split republican",
+    TRUE ~ "all others"
   )) |>
-  group_by(zipcode, split_vote) |>
-  summarise(votes = n())
+  filter(split_vote == "split republican") |>
+  group_by(zipcode) |>
+  summarise(votes = n()) |>
   arrange(desc(votes))
 
 ```
@@ -133,5 +146,5 @@ frederick_joined |>
 get_acs(geography = "zcta",
         variables = c(median_age = "B01002_001"), 
         #state = "MD", 
-        year == 2022)
+        year = 2022)
 ```
