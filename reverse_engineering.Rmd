@@ -66,13 +66,31 @@ print(filtered_data)
 * **Analysis summary**: Out of 1,342 people who say they sometimes, rarely, or don't vote in national elections, 765 say that they either dislike the candidates or that nothing will change for them. 403 say they dislike the candidates, while 362 say nothing will change as a result. This is sinilar to the original numbers presented in the text, as 403 is 30% of 1342 and 362 is 27%.
 
 ```{r}
+grep("Q26", names(Story_data), value = TRUE)
+
+
+```
+```{r}
+stwo_data <- Story_data |>
+  filter(!is.na(Q26), !is.na(Q29_1), !is.na(Q29_2), !is.na(Q29_3)) |>
+  group_by(voter_category) |>
+  summarise(count = n())
+stwo_data
+```
+```{r}
 filtered_data <- Story_data
 filtered_data |>
   filter(Q26 >= 2) |>
-  filter(Q29_1 == 1 | Q29_3 == 1)|>
+  filter(Q29_1 == 1)|>
 print(filtered_data)
 
-
+```
+```{r}
+filtered_data <- Story_data
+filtered_data |>
+  filter(Q26 >= 2) |>
+  filter(Q29_3 == 1)|>
+print(filtered_data)
 ```
 
 ### Sentence 3
@@ -95,6 +113,7 @@ Hispanic_story_data |>
 summarise(count = n()) |>
 mutate(percent = (count/sum(count)*100))
 ```
+
 ``` {r}
 Black_story_data <- Story_data |>
   filter(race == 'Black')
@@ -113,15 +132,22 @@ mutate(percent = (count/sum(count)*100))
 
 * **Sentence text**: “They were also likelier than those who vote more regularly to say they couldn’t get off work to vote...
 Also because he doesn't trust mail-in ballots. "The last time I tried to vote by mail, it didn't get counted-it was too late," he said. As a result, Sanchez told us, "I don't know where my ballot is going to end up, if I don't see it put into the voting machine."
-* **Analysis summary**: When filtering the data, 229 respondents chose 5 on the survey, which has the answer of they wanted to vote but had work/other obligations or forgot. Furthermore, in question 19 asks respondents what they think would make it easier for them to vote. The responses that have to do with automatically being registered to vote and recieving a mail-in ballot which had thousands of respondents say that this would make voting a lot easier for them. Comparing these different answers shows what would make voting easier for those who don't know about mail-in deadlines. 
+* **Analysis summary**:Question 29 gave ten answer selections for study participants to choose from when answering why they did not vote in the most recent presidential election which in this case was the 2020 presidential election. Selection 5, also Q29_5 in our code,is the option that says "I wanted to vote, but I didn't have time, couldn't get off work, something came up, or I forgot." Our sentence above for this anaylisis says that "They", people who never vote, are more likely to not vote versus people who vote more often than them, which is the "sporadic group", because they could not get off work which qualifies under selection 5 for question 29. -1 and N/A in the Q29_5 column in this case represents people who did not answer the question, and 1 represents all the people who did based on whether they qualify as rarely/never or sporadic voters. 10.13% of rarely/never voters chose selection 5 for why they didn't vote, and only 2.72% of sporadic voters chose selection 5. This backs up the article's sentence that we chose by showing that approximately 5 times as many rarely/never voters chose selection 5 as sporadic voters.
 
 ```{r}
-filtered_data_4 <- Story_data |>
-  select(Q29_5)|>
-  filter(Q29_5 == 1)
-filtered_data_4
-  
+Story_data |>
+  filter(voter_category == "sporadic") |>
+  group_by(Q29_5) |>
+  summarise(count = n()) |>
+  mutate(percentages = count/sum(count)*100)
 
+```
+```{r}
+Story_data |>
+  filter(voter_category == "rarely/never") |>
+  group_by(Q29_5) |>
+  summarise(count = n()) |>
+  mutate(percentages = count/sum(count)*100)
 ```
 
 ### Sentence 5
