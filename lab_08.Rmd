@@ -120,13 +120,10 @@ DEM_updated_ballots |>
 **A3** 
 
 ```{r}
-MD_absentee_ballots_by_date <- MD_absentee_ballots_by_date |>
-  group_by(DATE) |>
-  summarise(
-    total_contributions=n()
-  )
-
-MD_absentee_ballots_by_date
+MD_absentee_ballots_by_date |>
+  filter(county_name == "FREDERICK")
+  ggplot() +
+  geom_line(aes(x=date, y=dem_received), color
 ```
 
 **Q4.** A scatterplot is a type of chart that helps us see relationships between two variables. One variable goes on the x axis, the other on the y axis. For each row/observation in our data, a scatterplot puts a circle (or a "point") where the two variables intersect on a grid.
@@ -148,8 +145,13 @@ Follow these steps:
 5. In the answer space below, describe what you see. In a general sense, how would you report out the main point(s) of this chart? Are there counties that seem to be over or under-performing in relation to the overall trend?
 
 **A4.** 
-
+There's a pretty clear correlation between total sent and total received for every county - it really doesn't look like there are many outliers. All counties seem to be performing in line with the overall trend. 
 ```{r}
+MD_absentee_ballots |>
+  ggplot() +
+  geom_point(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`)) +
+  geom_text(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`, label = `COUNTY NAME`), check_overlap = TRUE)
+  
 
   
 ```
