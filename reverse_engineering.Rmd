@@ -78,17 +78,34 @@ print(filtered_data)
 ### Sentence 3
 
 * **Sentence text**: [A substantial chunk of respondents said they don’t think either party wants people like them to vote. (Twenty-three percent said this of Democrats and 31 percent of Republicans.) Black and Hispanic people were especially likely to say the Republicans don’t want people like them to vote: Fifty-four percent of Black respondents and 35 percent of Hispanic respondents agreed with this statement, compared to just 26 percent of white respondents.]
-* **Analysis summary**: The result of the analysis confirm the findings pretty well. Q14, which represents the republican party, shows that 33% of respondents say they don't think republicans want them to vote, similar to the 31% in the article. Q15, which is the democratic party, got a number of 21%, but accounting for the people that didn't vote the number should be similar to the 23% in the article. 
+* **Analysis summary**: The result of the analysis confirm the findings pretty well. Q14, which represents the republican party, shows that 33% of respondents say they don't think republicans want them to vote, similar to the 31% in the article. Q15, which is the democratic party, got a number of 21%, but accounting for the people that didn't vote the number should be similar to the 23% in the article. For the individual race numbers, I got 54% for black people and 29% for hispanics. 54 percent is right in line with the 54 percent from the text, and the 29 is close enough to 34 considering a five percent margin of error. 
 
 ```{r}
-Story_data |>
+Hispanic_story_data <- Story_data |>
+  filter(race == 'Hispanic')
+
+view(Hispanic_story_data) 
+
+
+```
+
+```{r}
+Hispanic_story_data |>
   group_by(Q14) |>
 summarise(count = n()) |>
 mutate(percent = (count/sum(count)*100))
 ```
 ``` {r}
-Story_data |>
-  group_by(Q15) |>
+Black_story_data <- Story_data |>
+  filter(race == 'Black')
+
+view(Black_story_data) 
+
+```
+
+``` {r}
+Black_story_data |>
+  group_by(Q14) |>
 summarise(count = n()) |>
 mutate(percent = (count/sum(count)*100))
 ```
@@ -111,6 +128,14 @@ filtered_data_4
 
 * **Sentence text**: [ Black and Hispanic voters are also more likely to experience hurdles, perhaps in part because there tend to be fewer polling places in their neighborhoods. About 24 percent of Black respondents said that they had to stand in line for more than an hour while voting, and Hispanic respondents were more likely to say they had trouble accessing the polling place or couldn’t get off work in time to vote.”]
 * **Analysis summary**: 248/932, or 26% of black respondents, said that they had to stand in line for more than an hour while voting, which is similar to the 24% number in the article. 130/813 Hispanics said they had trouble accessing the polling place or couldn't get off work in time to vote. 
+```{r}
+filtered_data <- Story_data
+filtered_data |>
+  filter(race == 'Hispanic') |>
+  filter(Q18_2 == 1 | Q18_7 ==1)|>
+print(filtered_data)
+
+```
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -120,12 +145,7 @@ filtered_data |>
   filter(Q18_8 == 1)|>
 print(filtered_data)
 
-filtered_data <- Story_data
-filtered_data |>
-  filter(race == 'Hispanic') |>
-  filter(Q18_2 == 1 | Q18_7 ==1)|>
-print(filtered_data)
-
 ```
+
 
 -30-
