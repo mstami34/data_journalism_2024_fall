@@ -117,13 +117,15 @@ DEM_updated_ballots |>
 ```
 **Q3** Let's make a line chart using the second set of absentee ballot data - this one tracking returns by date. We want to see received ballots for Frederick County for Democrats, Republicans and Others, so you'll make a chart with three lines, adding color to each one (you can choose, but choose sensibly). Give the chart a title and good labels. What's the story that this line chart tells? Compare and contrast the three lines. Does it match what you know about absentee voting habits?
 
-**A3** 
+**A3** Democrats are voting a lot more than the other two, which matches what I know about voting habits. 
 
 ```{r}
 MD_absentee_ballots_by_date |>
-  filter(county_name == "FREDERICK")
+  filter(`COUNTY NAME` == "FREDERICK") |>
   ggplot() +
-  geom_line(aes(x=date, y=dem_received), color
+  geom_line(aes(x=DATE, y=`DEM RECEIVED`), color = "blue") +
+  geom_line(aes(x=DATE, y=`REP RECEIVED`), color = "red") +
+  geom_line(aes(x=DATE, y=`OTH RECEIVED`), color = "grey") 
 ```
 
 **Q4.** A scatterplot is a type of chart that helps us see relationships between two variables. One variable goes on the x axis, the other on the y axis. For each row/observation in our data, a scatterplot puts a circle (or a "point") where the two variables intersect on a grid.
@@ -150,7 +152,8 @@ There's a pretty clear correlation between total sent and total received for eve
 MD_absentee_ballots |>
   ggplot() +
   geom_point(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`)) +
-  geom_text(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`, label = `COUNTY NAME`), check_overlap = TRUE)
+  geom_text(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`, label = `COUNTY NAME`), check_overlap = TRUE) +
+geom_smooth(aes(x=`TOTAL SENT`, y=`TOTAL RECEIVED`))
   
 
   
