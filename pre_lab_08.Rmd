@@ -137,6 +137,8 @@ maryland_top_counties |>
   coord_flip()
 ```
 
+
+
 Is this art? No. Does it quickly tell you something meaningful? It does.
 
 We're mainly going to use these charts to help us in reporting, so style isn't that important.
