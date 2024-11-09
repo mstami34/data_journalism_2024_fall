@@ -24,6 +24,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(janitor)
 library(tidycensus)
+library(lubridate)
+
 ```
 
 ## Questions
@@ -34,9 +36,23 @@ HINT: In Datawrapper's "Check and Describe" tab, you can click on a column to ge
 
 What do you think the story here is? Put the answer below along with the URL of your chart.
 
-**A1.**
+**A1.** https://datawrapper.dwcdn.net/Dgf1t/2/ I think the story here is the drastic change in mail-in voting. Most of the other categories are relatively similar on a year-to-year basis, but there's a huge jump in 2020 for mail-in votes. 
 
 ```{r}
+md_votes_by_type <- read_csv("data_lab9/md_votes_by_type.csv")
+
+md_votes_by_type |>
+  mutate(percentage_early = (Early/Total)*100) |>
+  mutate(percentage_mail = (`Mail` /Total)*100) |>
+  mutate(percentage_election_day = (`Election Day` /Total)*100) 
+
+
+
+
+
+
+
+
 ```
 
 **Q2.** You've been assigned to track early-voting turnout in Maryland at the county level. To do that, use [data from the state](https://elections.maryland.gov/press_room/2024_stats/PG24/EarlyVoting%20RAW%20data.csv). YOU DO NOT NEED TO LOAD THIS FILE. I've created several CSV files from it; each has a row for each day, with the counties as columns, so you can track early voting turnout in certain categories. The available files in the data folder are:
