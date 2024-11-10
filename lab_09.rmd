@@ -77,8 +77,10 @@ Your chart MUST:
 Tell me below why you picked the CSV you did. If you made any changes to the data, put that code below.
 
 **A2.** 
-
+https://datawrapper.dwcdn.net/N0VgY/2/ I chose the unafilliated voters turnout because I feel that the amount of unaffiliated voters that decide to vote will decide the election. 
 ```{r}
+unaf_voters_early <-read_csv("data_lab9/ev_totals_una.csv") |>
+  
 ```
 
 **Q3.** After reading the recent CNN story about fundraising called "[How elderly dementia patients are unwittingly fueling political campaigns](https://www.cnn.com/interactive/2024/10/politics/political-fundraising-elderly-election-invs-dg/)," you decide to dig into the habits of Maryland political donors who give money via ActBlue and WinRed.
