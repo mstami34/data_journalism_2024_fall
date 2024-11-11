@@ -77,7 +77,7 @@ Your chart MUST:
 Tell me below why you picked the CSV you did. If you made any changes to the data, put that code below.
 
 **A2.** 
-https://datawrapper.dwcdn.net/N0VgY/2/ I chose the unafilliated voters turnout because I feel that the amount of unaffiliated voters that decide to vote will decide the election. 
+https://datawrapper.dwcdn.net/N0VgY/2/ I chose the unafilliated voters turnout because I feel that the amount of unaffiliated voters that decide to vote will decide the election.  
 ```{r}
 unaf_voters_early <-read_csv("data_lab9/ev_totals_una.csv") |>
   
