@@ -1,0 +1,110 @@
+---
+title: "Data Analysis Project"
+author: "Cooper, Oliver, Michael"
+date: "November, 2024"
+output:
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction 
+In this notebook, we are analyzing Maryland Early Voting turnout data (https://elections.maryland.gov/press_room/index.html)
+
+## Load libraries
+Loading required libraries for this analysis.
+
+```{r echo=FALSE, message=FALSE}
+options(scipen=999)
+library(tidyverse)
+library(lubridate)
+library(janitor) #tidyverse, lubridate, and janitor are the only libraries we need for this project
+```
+
+## Load and Cleaning Data
+In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
+
+## Analysis 
+
+The source of the data is releases and election reports from the Maryland State Board of Elections. There aren't any obvious limitations or flaws, other than the inability to answer questions involving other states with the current data set due to it just being Maryland data. 
+```{r}
+md_ev_gub_14 <- clean_names(read_csv("data/md_ev_gub_14.csv")) #MD early voting for the gubernatorial election of 2014
+
+md_ev_pres_16 <- clean_names(read_csv("data/md_ev_pres_16.csv")) #MD early voting for the presidential election of 2016
+
+md_ev_gub_18 <- clean_names(read_csv("data/md_ev_gub_18.csv")) #MD early voting for the gubernatorial election of 2018
+
+md_ev_pres_20 <- clean_names(read_csv("data/md_ev_pres_20.csv")) #MD early voting for the presidential election of 2020
+
+md_ev_gub_22 <- clean_names(read_csv("data/md_ev_gub_22.csv")) #MD early voting for the gubernatorial election of 2022
+
+md_ev_pres_24 <- clean_names(read_csv("data/md_ev_pres_24.csv")) #MD early voting for the presidential election of 2024
+```
+
+## Sentences to Engineer
+In this notebook, we are working to answer five questions about early voters in Maryland.
+
+### Question 1
+* **Question**: How have early voting numbers changed over the last ten years?
+
+We want to identify general trends in the data, including changes and trends based on events is the news. This is a common thing that other journalists have done - checking trends - but we could differ from them by doing a timeline with events like political rhetoric or other topics.
+
+* **Analysis summary**:
+
+```{r}
+
+```
+
+### Question 2
+* **Question**: How is early voting data impacted by which party is projected to win the election (currently winning in the polls) at the time?
+
+Early voting data is very important - looking at trends and differences in this data can tell you a lot about an election. However, we think it’s newsworthy to see how people’s confidence in their party affected early voting, if at all.
+
+* **Analysis summary**:
+
+```{r}
+
+```
+
+### Question 3
+* **Question**: Were there any major shifts in terms of early voting during the pandemic as far as the 2020 presidential election?
+
+The pandemic had a tremendous impact on life for just about everyone, but also an incredible impact on election coverage, conversation, and activism. Understanding if there was a difference in this election year compared to other years is very important for that exact reason. There has been reporting on this effect on a national scale. In terms of Maryland, it’s now just used as a comparison to the current election race.
+
+* **Analysis summary**:
+
+```{r}
+
+```
+
+### Question 4
+* **Question**: How does the early voting turnout in Maryland compare to other states of similar population size and geographic location?
+
+This specifically addresses how local states are doing with voter turnout (essentially the DMV and just outside of it). Having this information will show interesting trends and also any discrepancies of voters that are geographically close to Maryland. There has been extensive research and journalistic work done on states early voter turnout but not so much based on geographic location and population size.
+
+* **Analysis summary**:
+
+```{r}
+
+```
+
+### Question 5
+* **Question**: What states in general have the highest early voter turnout?
+
+Understanding if states with larger or smaller population densities have greater early voter turnout can help see how Maryland can improve in their early voting turnout. There has been an incredible amount of work done to show where the highest early voter turnout is.
+
+* **Analysis summary**:
+
+```{r}
+
+```
+
+-30-
