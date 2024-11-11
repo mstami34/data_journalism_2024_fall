@@ -79,7 +79,7 @@ Tell me below why you picked the CSV you did. If you made any changes to the dat
 **A2.** 
 https://datawrapper.dwcdn.net/N0VgY/2/ I chose the unafilliated voters turnout because I feel that the amount of unaffiliated voters that decide to vote will decide the election.  
 ```{r}
-unaf_voters_early <-read_csv("data_lab9/ev_totals_una.csv") |>
+unaf_voters_early <-read_csv("data_lab9/ev_totals_una.csv") 
   
 ```
 
@@ -100,7 +100,41 @@ Then export each dataframe using `write_csv` and make two (2) choropleth maps in
 
 Compare the two maps. What do you think are the most interesting story ideas in both, and what would you want to know more about? Put the answer below along with the URLs of your maps.
 
-**A3.** 
+**A3.** https://datawrapper.dwcdn.net/XHrD3/1/ and https://datawrapper.dwcdn.net/wucZd/1/. I would want to know the average income and population data of the areas that have significantly more donations - I think that's the most interesting story idea for both. 
 
 ```{r}
+md_winred_zip_totals <- read_csv("data_lab9/md_winred_zip_totals.csv")
+md_actblue_zip_totals <- read_csv("data_lab9/md_actblue_zip_totals.csv") 
+``` 
+
+```{r} 
+pop_data <- get_acs(geography = "zcta", variables = "B01003_001", state = "MD", year = 2019, survey = "acs5")
+```
+```{r} 
+pop_data <- pop_data |>   
+  mutate(zip = as.character(GEOID), total_population = estimate) |>   
+  select(zip, total_population)
+md_winred_zip_totals <- md_winred_zip_totals |>   
+  mutate(zip = as.character(zip))
+md_actblue_zip_totals <- md_actblue_zip_totals |>  
+  mutate(zip = as.character(zip))
+```
+
+```{r} 
+md_winred_zip_totals <- md_winred_zip_totals |>   
+  left_join(pop_data, by = "zip")   
+md_actblue_zip_totals <- md_actblue_zip_totals |>   
+  left_join(pop_data, by = "zip")
+```
+
+```{r} 
+md_winred_zip_totals <- md_winred_zip_totals |>
+  mutate(rate_per_1000 = (`donations`/`total_population`)*1000) 
+write.csv(md_winred_zip_totals, "md_winred_zip_totals.csv")
+```
+```{r}
+md_actblue_zip_totals <- md_actblue_zip_totals |>
+   mutate(rate_per_1000 = (donations/total_population)*1000)
+write.csv(md_actblue_zip_totals, "md_actblue_zip_totals.csv") 
+
 ```
