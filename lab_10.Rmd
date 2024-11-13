@@ -35,7 +35,7 @@ Let's explore the election results from last night and make some maps!
 
 **Q1.** Make a county-level map of Maryland's results for U.S. Senate using `md_senate_county_24.csv` in the data folder, calculating the difference between Angela Alsobrooks's percentage of the total votes and Larry Hogan's percentage of the total votes and displaying that percentage difference on the map. What is the story here, and what is the county with the most interesting results?
 
-**A1.**
+**A1.** The story here is where the massive differences are - in baltimore city and prince george's, which are the counties with the most interesting results. 
 
 ```{r}
 md_senate <- read_csv("data/md_senate_county_24.csv") |>
@@ -56,7 +56,7 @@ md_senate_map <- md_counties_map |>
 
 md_senate_map |>
   ggplot() +
-  geom_sf(aes(fill="difference"))
+  geom_sf(aes(fill=difference))
 
 
 ```
