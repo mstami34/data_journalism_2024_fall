@@ -68,11 +68,10 @@ md_senate_map |>
 Also answer this: is a map the best way to present this data? What else could you make that might convey more information?
 
 **A2.**
+It doesn't appear that there are any counties where Trump outperformed Hogan, although it's quite close in some counties. I would describe it as showing which areas in Maryland are strong democrat or republican areas. I might be able to make a line graph or different charts that could convey more information. 
 
 ```{r}
-md_presidential <- read_csv("data/md_pres_county_24.csv")
-
-md_presidential |>
+md_presidential <- read_csv("data/md_pres_county_24.csv") |>
   adorn_totals("col") |>
   as.data.frame() |>
   clean_names() |>
@@ -80,10 +79,14 @@ md_presidential |>
          geoid = as.character(geoid)) |>
   select(geoid, county, percent_trump)
 
-md_presidentmd_senate_map |>
+md_president_map <- md_senate_map |>
   select(geoid, county, percent_hogan, geometry) |>
-  left_join(md_presidential)
+  left_join(md_presidential) |>
+  mutate(hogan_difference = percent_hogan - percent_trump)
 
+md_president_map |>
+  ggplot() +
+  geom_sf(aes(fill = hogan_difference))
 
 ```
 
