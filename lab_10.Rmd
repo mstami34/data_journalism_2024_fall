@@ -93,27 +93,30 @@ md_president_map |>
 
 **Q3** Make another map showing the difference between Larry Hogan's county-level performance this year and from his governor race in 2018, using percentages to compare the two as you did in Q2. You can use the dataframe you initially loaded for Q1, and you'll need to load the 2018 governor results in the data folder and join them to it before proceeding. Are there any counties where Hogan did better this year? How would you describe the map showing the difference?
 
-**A3**
+**A3**There are no counties where hogan did better this year. I would describe the map as strongly trending negative, with the few close areas in the more republican counties in Maryland and sharp decreases in support from democratic strongholds. 
 
 ```{r}
-md_governor_2018 <- read_csv("data/md_gov_county_18.csv")
-
-md_governor_2018 |>
+md_governor_2018 <- read_csv("data/md_gov_county_18.csv") |>
   adorn_totals("col") |>
   as.data.frame() |>
   clean_names() |>
   mutate(geoid = as.character(geoid),
-         percent_hogan_2017 = hogan/total*100
+         percent_hogan_2018 = hogan/total*100
   )|>
-  select(geoid, county, percent_hogan_2017)
+  select(geoid, county, percent_hogan_2018)
 
-md_senate_map |>
+md_senate_gov_map <- md_senate_map |>
   select(geoid, county, percent_hogan, geometry) |>
   rename(percent_hogan_2024 = percent_hogan) |>
-  left_join(md_governor_2018) |>
-  mutate(hogan_2024_difference = percent_hogan_2024-percent_hogan_2018) |>
+  left_join(md_governor_2018, join_by(geoid == geoid)) |>
+  mutate(hogan_2024_difference = percent_hogan_2024-percent_hogan_2018) 
+
  
-md
+md_senate_gov_map |>
+  ggplot() +
+  geom_sf(aes(fill = hogan_2024_difference))
+
+
 
 ```
 
