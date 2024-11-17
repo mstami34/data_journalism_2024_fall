@@ -122,9 +122,33 @@ md_senate_gov_map |>
 
 **Q4.** Choose your own map adventure! In the data folder I've included Maryland county-level results for the abortion rights amendment vote this year, plus the 2020 presidential results by county and 2022 governor's results by county. Using one of those and at least one other contest for comparison, make a county-level map showing what you think is the most interesting aspect of that data, and describe the results in terms of a possible story. You can bring in other data, such as Census information, if you like.
 
-**A4.**
+**A4.** I chose the 2022 governor's results by county. I think comparing where Wes Moore ran well in compared to Hogan's governor run would be interesting - just to see how the support changes in different areas. 
 
 ```{r}
+md_governor_2022 <- read_csv("data/md_gov_county_22.csv") |>
+  adorn_totals("col") |>
+  as.data.frame() |>
+  clean_names() |>
+  mutate(geoid = as.character(geoid),
+         total = cox+ moore + lashar + wallace +harding,
+         percent_moore_2022 = moore/total*100
+  )|>
+  select(geoid, county, percent_moore_2022)
+
+md_senate_gov_map <- md_senate_map |>
+  select(geoid, county, percent_moore_2022, geometry)
+  rename(percent_moore_2022 = percent_moore) |>
+
+
+ 
+md_senate_gov_map |>
+  ggplot() +
+  geom_sf(aes(fill = percent_Moore_2022))
+
+
+
+
+
 
 ```
 
