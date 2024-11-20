@@ -29,6 +29,7 @@ library(tidyverse)
 library(tidytext)
 library(janitor)
 library(lubridate)
+
 ```
 
 Remember the end of the previous lab, where you scraped all of those press release links from Maryland Sen. Ben Cardin's website? We're going to take that one step further and analyze the actual text of those releases using tidytext. Our starting question: what words or phrases appear most in Cardin's press releases?
@@ -161,7 +162,7 @@ From there, we can get a simple word frequency by just grouping them together an
 
 ### Task 9: Using anti_join
 
-**Task** Run the following code and describe the results. Is it more interesting than before? **I think so - it shows what issues are prioritized. **
+**Task** Run the following code and describe the results. Is it more interesting than before? **Yes, it's sorted by the amount and percent of the words**
 
 ```{r}
 unique_words |>
@@ -194,7 +195,7 @@ Then we can create top 10 lists for both of them and compare:
 
 ### Task 11: Create dataframes with the top 10 words in each year
 
-**Task** Run the following code and describe the results. **In both years, there are shared words that occur in many instances, like baltimore, health, and others**
+**Task** Run the following code and describe the results. **The top ten words in each year, sorted in order of percentage**
 
 ```{r}
 unique_words_2022 |>
@@ -232,7 +233,7 @@ So this block is is going to do the following:
 
 ### Task 12: Create a dataframe with the top 10 two-word phrases for 2022
 
-**Task** Run the following code and describe the results. **Most used phrases, with phrases being defined as two words - these occur less than the singular words**
+**Task** Run the following code and describe the results. **Two word phrases, sorted by occurence and percentage**
 
 ```{r}
 releases |>
@@ -252,7 +253,7 @@ And we already have a different, more nuanced result. Health was among the top s
 
 ### Task 13: Create a dataframe with the top 10 two-word phrases for 2024
 
-**Task** Run the following code and describe the results. **Similar to the 2022 phrases - just a different order. Seems like most of these topics remained as important issues. **
+**Task** Run the following code and describe the results.**same thing as last, two word phrases sorted by occurence and percentage**
 
 ```{r}
 releases |>
@@ -279,7 +280,7 @@ Or..... we could have R tackle this.
 **Task** Run the following code.
 
 ```{r}
-install.packages("pacman") 
+#install.packages("pacman")  comment this line out after you run it the first time
 pacman::p_load_gh("trinker/textstem")
 library(textstem)
 ```
@@ -288,7 +289,7 @@ library(textstem)
 
 ### Task 15: Stemming vs. Lemmatization
 
-**Task** Run the following code and describe the differences between the two results. Which one might be more useful for the press release data? **Answer**
+**Task** Run the following code and describe the differences between the two results. Which one might be more useful for the press release data? **The first one has more variation, so probably that one**
 
 ```{r}
 dw <- c('driver', 'drive', 'drove', 'driven', 'drives', 'driving')
@@ -303,7 +304,7 @@ Let's try lemmatization on the 2024 unique words, and then compare the top ten t
 
 ### Task 16: Lemmatization vs. Words
 
-**Task** Run the following code and describe the differences between the two results. Which one is more useful? **Answer**
+**Task** Run the following code and describe the differences between the two results. Which one is more useful? **The first one, because it covers a broader base of the same terms**
 
 ```{r}
 unique_words_2024_lemma <- lemmatize_words(unique_words_2024$word) |> as_tibble() |> rename(word = value)
@@ -329,7 +330,7 @@ Another popular use of text analysis is to measure the sentiment of a word - whe
 
 ### Task 17: Load the bing lexicon and produce sentiments for our 2022 and 2024 unique words
 
-**Task** Run the following code and describe the results. Do any of the sentiments seem incorrect or counter-intuitive? **Answer**
+**Task** Run the following code and describe the results. Do any of the sentiments seem incorrect or counter-intuitive? **They seem accurate to me**
 
 ```{r}
 bing <- get_sentiments("bing")
