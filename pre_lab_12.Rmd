@@ -279,7 +279,7 @@ Or..... we could have R tackle this.
 **Task** Run the following code.
 
 ```{r}
-install.packages("pacman") # comment this line out after you run it the first time
+install.packages("pacman") 
 pacman::p_load_gh("trinker/textstem")
 library(textstem)
 ```
