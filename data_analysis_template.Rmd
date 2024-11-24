@@ -36,17 +36,17 @@ In this section, describe the source of the data, write a basic data dictionary 
 
 The source of the data is releases and election reports from the Maryland State Board of Elections. There aren't any obvious limitations or flaws, other than the inability to answer questions involving other states with the current data set due to it just being Maryland data. 
 ```{r}
-md_ev_gub_14 <- clean_names(read_csv("data/md_ev_gub_14.csv")) #MD early voting for the gubernatorial election of 2014
+md_ev_gub_14 <- clean_names(read_csv("dataproj/md_ev_gub_14.csv")) #MD early voting for the gubernatorial election of 2014
 
-md_ev_pres_16 <- clean_names(read_csv("data/md_ev_pres_16.csv")) #MD early voting for the presidential election of 2016
+md_ev_pres_16 <- clean_names(read_csv("dataproj/md_ev_pres_16.csv")) #MD early voting for the presidential election of 2016
 
-md_ev_gub_18 <- clean_names(read_csv("data/md_ev_gub_18.csv")) #MD early voting for the gubernatorial election of 2018
+md_ev_gub_18 <- clean_names(read_csv("dataproj/md_ev_gub_18.csv")) #MD early voting for the gubernatorial election of 2018
 
-md_ev_pres_20 <- clean_names(read_csv("data/md_ev_pres_20.csv")) #MD early voting for the presidential election of 2020
+md_ev_pres_20 <- clean_names(read_csv("dataproj/md_ev_pres_20.csv")) #MD early voting for the presidential election of 2020
 
-md_ev_gub_22 <- clean_names(read_csv("data/md_ev_gub_22.csv")) #MD early voting for the gubernatorial election of 2022
+md_ev_gub_22 <- clean_names(read_csv("dataproj/md_ev_gub_22.csv")) #MD early voting for the gubernatorial election of 2022
 
-md_ev_pres_24 <- clean_names(read_csv("data/md_ev_pres_24.csv")) #MD early voting for the presidential election of 2024
+md_ev_pres_24 <- clean_names(read_csv("dataproj/md_ev_pres_24.csv")) #MD early voting for the presidential election of 2024
 ```
 
 ## Sentences to Engineer
