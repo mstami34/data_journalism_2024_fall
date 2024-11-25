@@ -68,9 +68,34 @@ We want to identify general trends in the data, including changes and trends bas
 
 Early voting data is very important - looking at trends and differences in this data can tell you a lot about an election. However, we think it’s newsworthy to see how people’s confidence in their party affected early voting, if at all.
 
-* **Analysis summary**:
+ **2024 - totaling only dems and reps - 110593, dems=63.7%, reps=36.3%**
+
+**2020 - totaling only dems and reps - 143702, dems=58.5%, reps=41.5**
+
+**2016 - totaling only dems and reps - 72730, dems=65.2%, reps=34.8%**
+
+**Final polling numbers - 2016: Clinton 45.7, Trump 41.8 - 2020: Biden 51.8, Trump 43.4 - 2024: Harris 48, Trump 46.8**
+
+**Cross-referencing these numbers with 538's final polling numbers, it seems that there's not much correlation between early voting data and the final polling numbers. If anything, the closer the final polls are, the larger the gap is between the two parties in registered voters. However, there is more of a correlation between the total number of early voters and the polls - the better the polls look for democrats, the higher the final number of early voters**
 
 ```{r}
+md_ev_pres_24 |>
+  group_by(party_code)|>
+  summarise(count = n())
+```
+``` {r}
+md_ev_pres_16 |>
+  group_by(party_code)|>
+  summarise(count = n())
+
+
+```
+``` {r}
+md_ev_pres_20 |>
+  group_by(party_code)|>
+  summarise(count = n()) 
+
+
 
 ```
 
@@ -79,9 +104,41 @@ Early voting data is very important - looking at trends and differences in this 
 
 The pandemic had a tremendous impact on life for just about everyone, but also an incredible impact on election coverage, conversation, and activism. Understanding if there was a difference in this election year compared to other years is very important for that exact reason. There has been reporting on this effect on a national scale. In terms of Maryland, it’s now just used as a comparison to the current election race.
 
-* **Analysis summary**:
+* **Analysis summary**: While total early voting certainly spiked for the 2020 election, our analysis finds that it did not increase in every county. Prince George's County, for example, had higher early voting in both 2016 and 2024. Other counties of varying locations and population sizes experienced different trends in their early voting when comparing 2020 to '16 and '24, painting a picture of almost random output.
 
 ```{r}
+md_ev_pres_16 <- clean_names(read_csv("dataproj/md_ev_pres_16.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_16=sum(total, na.rm=TRUE)
+  )
+
+md_ev_pres_20 <- clean_names(read_csv("dataproj/md_ev_pres_20.csv")) |>
+  mutate(total=total_day1+total_day2+total_day3+total_day4+total_day5+total_day6+total_day7+total_day8) |>
+  mutate(total=as.numeric(total)) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_20=sum(total, na.rm=TRUE)
+  )
+    
+md_ev_pres_24 <- clean_names(read_csv("dataproj/md_ev_pres_24.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_24=sum(total, na.rm=TRUE)
+  )
+
+md_ev_pres_combined <- md_ev_pres_24 |>
+  left_join(md_ev_pres_20, join_by(county_name)) |>
+  left_join(md_ev_pres_16, join_by(county_name)) |>
+  arrange(desc(total_20))
+
+ggplot(md_ev_pres_combined, aes(x=total_24, y=total_20, color=total_16)) +
+  geom_point()
 
 ```
 
