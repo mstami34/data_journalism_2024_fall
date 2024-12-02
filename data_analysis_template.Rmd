@@ -57,9 +57,68 @@ In this notebook, we are working to answer five questions about early voters in 
 
 We want to identify general trends in the data, including changes and trends based on events is the news. This is a common thing that other journalists have done - checking trends - but we could differ from them by doing a timeline with events like political rhetoric or other topics.
 
-* **Analysis summary**:
+* **Analysis summary**: Our analysis shows that in general, early voting has increased across counties in Maryland, with some like Washington and Calvert counties more than tripling their early voting turnout over the 10-year stretch. One thing that is a little surprising is the sharp decline in EV in Baltimore City, which began before the pandemic and seems to only now be slightly recovering. The only other county jurisdictions with declines from 2014-2024 are Somerset, Dorchester, Kent, and Anne Arundel, which do not have much in common with Baltimore City. The gubernatorial races tend to draw less early voting, which is not surprising because they draw less voting overall. Three counties did not have a single early voter in the 2022 race.
 
 ```{r}
+md_ev_gub_14 <- clean_names(read_csv("data/md_ev_gub_14.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_14=sum(total, na.rm=TRUE)
+  )
+
+md_ev_pres_16 <- clean_names(read_csv("data/md_ev_pres_16.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_16=sum(total, na.rm=TRUE)
+  )
+
+md_ev_gub_18 <- clean_names(read_csv("data/md_ev_gub_18.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_18=sum(total, na.rm=TRUE)
+  )
+
+md_ev_pres_20 <- clean_names(read_csv("data/md_ev_pres_20.csv")) |>
+  mutate(total=total_day1+total_day2+total_day3+total_day4+total_day5+total_day6+total_day7+total_day8) |>
+  mutate(total=as.numeric(total)) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_20=sum(total, na.rm=TRUE)
+  )
+
+md_ev_gub_22 <- clean_names(read_csv("data/md_ev_gub_22.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_22=sum(total, na.rm=TRUE)
+  )
+   
+md_ev_pres_24 <- clean_names(read_csv("data/md_ev_pres_24.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(county_name, total) |>
+  group_by(county_name) |>
+  summarise(
+    total_24=sum(total, na.rm=TRUE)
+  )
+
+md_ev_combined <- md_ev_pres_24 |>
+  left_join(md_ev_gub_22, join_by(county_name)) |>
+  left_join(md_ev_pres_20, join_by(county_name)) |>
+  left_join(md_ev_gub_18, join_by(county_name)) |>
+  left_join(md_ev_pres_16, join_by(county_name)) |>
+  left_join(md_ev_gub_14, join_by(county_name)) |>
+  mutate(pct_change=100*(total_24-total_14)/total_14) |>
+  arrange(desc(pct_change))
+
+md_ev_combined
 
 ```
 
