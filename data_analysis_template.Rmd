@@ -206,9 +206,42 @@ ggplot(md_ev_pres_combined, aes(x=total_24, y=total_20, color=total_16)) +
 
 This specifically addresses how local states are doing with voter turnout (essentially the DMV and just outside of it). Having this information will show interesting trends and also any discrepancies of voters that are geographically close to Maryland. There has been extensive research and journalistic work done on states early voter turnout but not so much based on geographic location and population size.
 
-* **Analysis summary**: Maryland's population size as of 2023 compares closely to Missouri, Indiana, and Wisconsin, none of which are close geographically. Virginia and Massachusetts are relatively close geographically, but have considerably more people. 
+* **Analysis summary**: Early voting data was pervasive in Pennsylvania and Delaware, so we looked at Virginia as our neighborly comparison. As we can see from our analysis, a higher percentage of VA residents participated in early voting in 2024. Since Virginia's population is also higher than Maryland's, this means that almost 150,000 more people early voted in VA than in MD.
 
 ```{r}
+md_ev_pres_24 <- clean_names(read_csv("dataproj/md_ev_pres_24.csv")) |>
+  mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
+  select(total) |>
+  summarise(
+    total_md=sum(total, na.rm=TRUE)
+  ) #finding total EV for 2024, same code as Q1 and Q3
+
+va_ev_pres_24 <- clean_names(read_csv("dataproj/va_ev_pres_24.csv")) |>
+  select(early_voting) |>
+  summarise(
+    total_va=sum(early_voting, na.rm=TRUE)
+  ) #finding total EV for Virginia in 2024, grabbed csv file from their elections website just like in MD. PA and DE had data for registration and results by candidate, but didn;t include columns for early voting in their data. We could only find absentee ballots, provisional ballots, and in-person votes.
+
+md_va_24 <- md_ev_pres_24 |>
+  cross_join(va_ev_pres_24) #cross join since they do not share a column name
+
+library(tidyr)
+library(dplyr) #both needed for cleaning the combined dataframe so that it can be suitable for ggplot
+md_va_24 <- md_va_24 |>
+  mutate(population_md=6180253) |> #as of July, 2023 via https://www.census.gov/quickfacts/fact/table/MD/PST045223
+  mutate(population_va=8715698) |> #as of July, 2023 via https://www.census.gov/quickfacts/fact/table/VA/PST045223
+  mutate(pct_md=total_md/population_md*100) |>
+  mutate(pct_va=total_va/population_va*100) |> #new columns showing how much of the population did early voting
+  pivot_longer(cols=everything(), names_to="key", values_to="value") |> #pivot_longer() function initiates the process of cleaning/flipping the dataframe so that it becomes sutiable for ggplot. "cols=everything()" makes sure we are working with all of our columns. "names_to='key'" essentially creates a bank of the column names that we will use next. same for the numbers in "value".
+  separate(key, into=c("metric", "state"), sep="_") |> #separate() function allows us to clean our column names, which we know are now stored in "key". We take everything before the underscore and call it a metric (total, population, and pct) and make everything after the underscore a state (md, va). this would not work if our column names did not all follow the structure of metric_state.
+  pivot_wider(names_from=metric, values_from=value) #now we simply pivot the dataframe to where the column names are the ones we split from their underscores in "metric", the rows are the other half of those underscored titles, and the numbers we stored in "value" beforehand return.
+
+md_va_24
+
+md_va_24 |>
+  ggplot() +
+  geom_bar(aes(x=state, weight=total, fill=pct)) #the color of the bars reflects the percentage of the state's population that early voted.
+```
 
 ```
 
