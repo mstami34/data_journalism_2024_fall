@@ -60,7 +60,7 @@ We want to identify general trends in the data, including changes and trends bas
 * **Analysis summary**: Our analysis shows that in general, early voting has increased across counties in Maryland, with some like Washington and Calvert counties more than tripling their early voting turnout over the 10-year stretch. One thing that is a little surprising is the sharp decline in EV in Baltimore City, which began before the pandemic and seems to only now be slightly recovering. The only other county jurisdictions with declines from 2014-2024 are Somerset, Dorchester, Kent, and Anne Arundel, which do not have much in common with Baltimore City. The gubernatorial races tend to draw less early voting, which is not surprising because they draw less voting overall. Three counties did not have a single early voter in the 2022 race.
 
 ```{r}
-md_ev_gub_14 <- clean_names(read_csv("data/md_ev_gub_14.csv")) |>
+md_ev_gub_14 <- clean_names(read_csv("dataproj/md_ev_gub_14.csv")) |>
   mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
   select(county_name, total) |>
   group_by(county_name) |>
@@ -68,7 +68,7 @@ md_ev_gub_14 <- clean_names(read_csv("data/md_ev_gub_14.csv")) |>
     total_14=sum(total, na.rm=TRUE)
   )
 
-md_ev_pres_16 <- clean_names(read_csv("data/md_ev_pres_16.csv")) |>
+md_ev_pres_16 <- clean_names(read_csv("dataproj/md_ev_pres_16.csv")) |>
   mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
   select(county_name, total) |>
   group_by(county_name) |>
@@ -76,7 +76,7 @@ md_ev_pres_16 <- clean_names(read_csv("data/md_ev_pres_16.csv")) |>
     total_16=sum(total, na.rm=TRUE)
   )
 
-md_ev_gub_18 <- clean_names(read_csv("data/md_ev_gub_18.csv")) |>
+md_ev_gub_18 <- clean_names(read_csv("dataproj/md_ev_gub_18.csv")) |>
   mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
   select(county_name, total) |>
   group_by(county_name) |>
@@ -84,7 +84,7 @@ md_ev_gub_18 <- clean_names(read_csv("data/md_ev_gub_18.csv")) |>
     total_18=sum(total, na.rm=TRUE)
   )
 
-md_ev_pres_20 <- clean_names(read_csv("data/md_ev_pres_20.csv")) |>
+md_ev_pres_20 <- clean_names(read_csv("dataproj/md_ev_pres_20.csv")) |>
   mutate(total=total_day1+total_day2+total_day3+total_day4+total_day5+total_day6+total_day7+total_day8) |>
   mutate(total=as.numeric(total)) |>
   select(county_name, total) |>
@@ -93,7 +93,7 @@ md_ev_pres_20 <- clean_names(read_csv("data/md_ev_pres_20.csv")) |>
     total_20=sum(total, na.rm=TRUE)
   )
 
-md_ev_gub_22 <- clean_names(read_csv("data/md_ev_gub_22.csv")) |>
+md_ev_gub_22 <- clean_names(read_csv("dataproj/md_ev_gub_22.csv")) |>
   mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
   select(county_name, total) |>
   group_by(county_name) |>
@@ -101,7 +101,7 @@ md_ev_gub_22 <- clean_names(read_csv("data/md_ev_gub_22.csv")) |>
     total_22=sum(total, na.rm=TRUE)
   )
    
-md_ev_pres_24 <- clean_names(read_csv("data/md_ev_pres_24.csv")) |>
+md_ev_pres_24 <- clean_names(read_csv("dataproj/md_ev_pres_24.csv")) |>
   mutate(total=day1+day2+day3+day4+day5+day6+day7+day8) |>
   select(county_name, total) |>
   group_by(county_name) |>
@@ -142,6 +142,7 @@ md_ev_pres_24 |>
   group_by(party_code)|>
   summarise(count = n())
 ```
+
 ``` {r}
 md_ev_pres_16 |>
   group_by(party_code)|>
@@ -149,6 +150,7 @@ md_ev_pres_16 |>
 
 
 ```
+
 ``` {r}
 md_ev_pres_20 |>
   group_by(party_code)|>
@@ -243,17 +245,28 @@ md_va_24 |>
   geom_bar(aes(x=state, weight=total, fill=pct)) #the color of the bars reflects the percentage of the state's population that early voted.
 ```
 
-```
 
 ### Question 5
-* **Question**: What states in general have the highest early voter turnout?
+* **Question**: How is early voting different based on the state's traditional political support? 
 
-Understanding if states with larger or smaller population densities have greater early voter turnout can help see how Maryland can improve in their early voting turnout. There has been an incredible amount of work done to show where the highest early voter turnout is.
+Understanding how political party affiliation is involved in early voting data will give us an insight on early voting trends based on political support in different states.
 
-* **Analysis summary**:
+** Maryland got a close percentage of democratic support in the presidential race as South Dakota had republican support, so I'll be comparing the two. Looking at the party affiliation of the early voters in both states, you can see that South Dakota's early vote was much more one-sided than Maryland's, with republicans outnumbering democrats more than 3-1 in early voting, compared to Maryland, which was closer to 2-1. I think this tells a story that lines up with the final results - as indicated by the early voting distribution in two states that had close to the same percentage of the total vote for opposite candidates.  **
 
 ```{r}
+md_early_voting_support <- clean_names(read_csv("md2024evbyparty.csv"))
 
+md_early_voting_support |>
+    ggplot() +
+  geom_bar(aes(x=x1, weight=total_votes, fill=total_votes))+labs(x = "Party Affiliation")
+
+sd_early_voting_support <- clean_names(read_csv("sd2024evbyparty.csv"))
+
+sd_early_voting_support |>
+      ggplot() +
+  geom_bar(aes(x=x1, weight=total_votes, fill=total_votes))+labs(x = "Party Affiliation")
+  
 ```
+
 
 -30-
