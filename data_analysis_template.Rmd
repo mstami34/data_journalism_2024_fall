@@ -247,11 +247,11 @@ md_va_24 |>
 
 
 ### Question 5
-* **Question**: How is early voting different based on the state's traditional political support? 
+* **Question**: How is mail-in voting different based on the state's traditional political support? 
 
-Understanding how political party affiliation is involved in early voting data will give us an insight on early voting trends based on political support in different states.
+Understanding how political party affiliation is involved in mail-in voting data will give us an insight on early voting trends based on political support in different states.
 
-** Maryland got a close percentage of democratic support in the presidential race as South Dakota had republican support, so I'll be comparing the two. Looking at the party affiliation of the early voters in both states, you can see that South Dakota's early vote was much more one-sided than Maryland's, with republicans outnumbering democrats more than 3-1 in early voting, compared to Maryland, which was closer to 2-1. I think this tells a story that lines up with the final results - as indicated by the early voting distribution in two states that had close to the same percentage of the total vote for opposite candidates.  **
+** Maryland got a close percentage of democratic support in the presidential race as South Dakota had republican support, so I'll be comparing the two. Looking at the party affiliation of the mail-in voters in both states, you can see that South Dakota's mail-in vote was much more one-sided than Maryland's, with republicans outnumbering democrats more than 3-1 in mail-in voting, compared to Maryland, which was closer to 2-1. I think this tells a story that lines up with the final results - as indicated by the mail-in voting distribution in two states that had close to the same percentage of the total vote for opposite candidates.  **
 
 ```{r}
 md_early_voting_support <- clean_names(read_csv("md2024evbyparty.csv"))
