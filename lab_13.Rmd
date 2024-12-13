@@ -104,10 +104,31 @@ When you're done, rename the columns so they make sense, then make sure the date
 Finally, tell me what questions you could ask of this data. Be creative.
 
 **A3** 
-
+You could ask 
 ```{r}
+html <- read_html('https://www.cardin.senate.gov/?post_type=press-releases')
+ 
 
+dates <- html |>
+  html_elements("h5") |>
+  html_text() |>
+  as_tibble()
 
-l
+titles <- html |>
+  html_elements("h3") |>
+  html_text(trim = TRUE) |>
+  as_tibble()
 
+urls <- html |>
+  html_elements("h3 a") |>
+  html_attr("href") |>
+  as_tibble()
+
+dates |>
+  bind_cols(titles, urls) |>
+  clean_names() |>
+  rename(date = value_1, 
+         title = value_2, 
+         url = value_3
+  )
 ```
