@@ -104,43 +104,7 @@ Finally, tell me what questions you could ask of this data. Be creative.
 
 ```{r}
 
-# Step 1: Scrape the HTML page
-url <- "https://www.cardin.senate.gov/?post_type=press-releases"
-page <- read_html(url)
 
-# Step 2: Extract the data
-# Extract dates
-dates <- page %>%
-  html_elements(".post-date") %>%
-  html_text() %>%
-  trimws() # Clean any leading/trailing whitespace
-
-# Extract titles
-titles <- page %>%
-  html_elements(".entry-title a") %>%
-  html_text()
-
-# Extract URLs (from the href attribute)
-urls <- page %>%
-  html_elements(".entry-title a") %>%
-  html_attr("href")
-
-# Step 3: Combine the extracted data into a dataframe
-press_releases_df <- data.frame(
-  date = dates,
-  title = titles,
-  url = urls,
-  stringsAsFactors = FALSE
-)
-
-# Step 4: Clean the data
-# Convert 'date' to actual date format
-press_releases_df$date <- mdy(press_releases_df$date) # Assuming date is in "MM/DD/YYYY" format
-
-# Rename columns
-colnames(press_releases_df) <- c("Date", "Title", "URL")
-
-# Step 5: Display the dataframe
-head(press_releases_df)
+l
 
 ```
