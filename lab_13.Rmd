@@ -61,7 +61,7 @@ joined_data_both <- left_join(utahcountysenate2018, utahcountysenate2022, by = "
 
 **Q1.** Calculate the difference in votes between Evan McMullin and Jenny Wilson and save it your combined dataframe. Write up some sentences that could go in a story describing where McMullin outperformed Wilson and where he didn't. Mention the margins and describe the counties you mention (location, population or another factor, such as 2020 presidential vote).
 
-**The difference between the two is 131417. McMullin did much better than Wilson in Davis and Salt Lake, two of the more populated counties, where Wilson needed to keep it closer or outperform. ** 
+**The difference between the two is 131417. McMullin did much better than Wilson in Davis and Salt Lake, two of the more populated counties, where Wilson needed to keep it closer or outperform him. McMullin was able to win the most populated counties in the state that traditionally vote democratic, leading to the wide margin in votes. ** 
 
 ```{r}
 
@@ -74,7 +74,7 @@ Total_McMullin_Votes
 
 **Q2** Calculate the difference in votes between Mike Lee and Mitt Romney and save it your combined dataframe. Write up some sentences that could go in a story describing where Romney outperformed Lee and where he didn't. Mention the margins and describe the counties you mention (location, population or another factor).
 
-**The vote difference between the two was 93781. Romney outperformed Lee in primarily democratic counties like ___, ___, and ___, while running up the vote in ___. ** 
+**The vote difference between the two was 93781. Romney outperformed Lee in primarily democratic counties like Salt Lake City, Grand, and Summit, while running up the vote in Davis - a republican stronghold with a high population. These differences, along with him generally outperforming him in most areas, led to a solid margin of votes between the two.  ** 
 
 ```{r}
   Total_Romney_Votes <- sum(joined_data_both$`Mitt Romney              (REP)`) 
@@ -96,5 +96,44 @@ Finally, tell me what questions you could ask of this data. Be creative.
 **A3** 
 
 ```{r}
+
+# Step 1: Scrape the HTML page
+url <- "https://www.cardin.senate.gov/?post_type=press-releases"
+page <- read_html(url)
+
+# Step 2: Extract the data
+# Extract dates
+dates <- page %>%
+  html_elements(".post-date") %>%
+  html_text() %>%
+  trimws() # Clean any leading/trailing whitespace
+
+# Extract titles
+titles <- page %>%
+  html_elements(".entry-title a") %>%
+  html_text()
+
+# Extract URLs (from the href attribute)
+urls <- page %>%
+  html_elements(".entry-title a") %>%
+  html_attr("href")
+
+# Step 3: Combine the extracted data into a dataframe
+press_releases_df <- data.frame(
+  date = dates,
+  title = titles,
+  url = urls,
+  stringsAsFactors = FALSE
+)
+
+# Step 4: Clean the data
+# Convert 'date' to actual date format
+press_releases_df$date <- mdy(press_releases_df$date) # Assuming date is in "MM/DD/YYYY" format
+
+# Rename columns
+colnames(press_releases_df) <- c("Date", "Title", "URL")
+
+# Step 5: Display the dataframe
+head(press_releases_df)
 
 ```
