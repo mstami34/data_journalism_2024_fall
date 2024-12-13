@@ -104,7 +104,7 @@ When you're done, rename the columns so they make sense, then make sure the date
 Finally, tell me what questions you could ask of this data. Be creative.
 
 **A3** 
-You could ask 
+You could ask a lot of different questions about this data. You could look for trends in length of releases, to see which months have the biggest and most important news. You could also sort by month to see which months have the most releases, by keywords to see what issues Cardin puts the most effort into or cares the most about, and other things. 
 ```{r}
 html <- read_html('https://www.cardin.senate.gov/?post_type=press-releases')
  
