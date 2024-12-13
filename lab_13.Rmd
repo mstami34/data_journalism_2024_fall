@@ -69,7 +69,8 @@ joined_data_both <- left_join(utahcountysenate2018, utahcountysenate2022, by = "
 Total_McMullin_Votes
   Total_Wilson_Votes <- sum(joined_data_both$`Jenny Wilson              (DEM)`)
   Total_Wilson_Votes
-  
+  vote_difference = Total_McMullin_Votes - Total_Wilson_Votes
+  view(vote_difference)
 
   joined_data_both <- joined_data_both |>
   mutate(Difference_McMullin_v_Wilson = `Evan McMillan (UNA)` - `Jenny Wilson              (DEM)`)
@@ -85,6 +86,8 @@ Total_McMullin_Votes
 Total_Romney_Votes
   Total_Lee_Votes <- sum(joined_data_both$`Mike Lee (REP)`)
   Total_Lee_Votes
+  vote_difference2 = Total_Romney_Votes - Total_Lee_Votes
+  view(vote_difference2)
   
    joined_data_both <- joined_data_both |>
   mutate(Difference_Romney_v_Lee = `Mitt Romney              (REP)` - `Mike Lee (REP)`)
