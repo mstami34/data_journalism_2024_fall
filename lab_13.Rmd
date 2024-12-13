@@ -69,6 +69,10 @@ joined_data_both <- left_join(utahcountysenate2018, utahcountysenate2022, by = "
 Total_McMullin_Votes
   Total_Wilson_Votes <- sum(joined_data_both$`Jenny Wilson              (DEM)`)
   Total_Wilson_Votes
+  
+
+  joined_data_both <- joined_data_both |>
+  mutate(Difference_McMullin_v_Wilson = Total_McMullin_Votes - Total_Wilson_Votes)
 
 ```
 
@@ -81,6 +85,9 @@ Total_McMullin_Votes
 Total_Romney_Votes
   Total_Lee_Votes <- sum(joined_data_both$`Mike Lee (REP)`)
   Total_Lee_Votes
+  
+   joined_data_both <- joined_data_both |>
+  mutate(Difference_Romney_v_Lee = Total_Romney_Votes - Total_Lee_Votes)
 ```
 
 **Q3** Sen. Ben Cardin, D-Maryland, has posted hundreds of press releases at https://www.cardin.senate.gov/?post_type=press-releases. It would be great to have all of them in a dataframe that has the following columns: date, title and url.
